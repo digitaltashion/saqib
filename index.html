@@ -1,0 +1,780 @@
+<!doctype html>
+<html lang="en" class="h-full">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saqib Mehmood</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&amp;family=Sora:wght@300;400;500;600;700&amp;display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Outfit', sans-serif
+    }
+
+    .app-shell {
+      height: 100%;
+      width: 100%;
+      position: relative;
+      overflow: hidden
+    }
+
+    .bg-mesh {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      transition: background 0.6s
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.5;
+      animation: float 8s ease-in-out infinite
+    }
+
+    .blob-1 {
+      width: 300px;
+      height: 300px;
+      top: -50px;
+      left: -50px;
+      animation-delay: 0s
+    }
+
+    .blob-2 {
+      width: 250px;
+      height: 250px;
+      bottom: 10%;
+      right: -30px;
+      animation-delay: -3s
+    }
+
+    .blob-3 {
+      width: 200px;
+      height: 200px;
+      top: 40%;
+      left: 30%;
+      animation-delay: -5s
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1)
+      }
+
+      33% {
+        transform: translate(30px, -20px) scale(1.05)
+      }
+
+      66% {
+        transform: translate(-20px, 15px) scale(0.95)
+      }
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 24px;
+      transition: all 0.3s
+    }
+
+    .glass:hover {
+      background: rgba(255, 255, 255, 0.18)
+    }
+
+    .dark .glass {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.1)
+    }
+
+    .dark .glass:hover {
+      background: rgba(255, 255, 255, 0.1)
+    }
+
+    .page {
+      position: absolute;
+      inset: 0;
+      padding: 20px 16px 100px;
+      overflow-y: auto;
+      opacity: 0;
+      transform: translateY(20px) scale(0.97);
+      pointer-events: none;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      scrollbar-width: none
+    }
+
+    .page::-webkit-scrollbar {
+      display: none
+    }
+
+    .page.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto
+    }
+
+    .nav-bar {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-radius: 28px;
+      padding: 6px 8px;
+      display: flex;
+      gap: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: background 0.3s
+    }
+
+    .nav-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      padding: 8px 16px;
+      border-radius: 22px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.3s;
+      color: inherit;
+      opacity: 0.5;
+      font-family: 'Outfit', sans-serif;
+      font-size: 10px;
+      font-weight: 500
+    }
+
+    .nav-btn.active {
+      opacity: 1;
+      background: rgba(255, 255, 255, 0.2)
+    }
+
+    .dark .nav-btn.active {
+      background: rgba(255, 255, 255, 0.12)
+    }
+
+    .nav-btn i {
+      width: 20px;
+      height: 20px
+    }
+
+    .glow-ring {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, #7c3aed, #ec4899, #3b82f6);
+      animation: glow-pulse 3s ease-in-out infinite
+    }
+
+    @keyframes glow-pulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 20px rgba(124, 58, 237, 0.4)
+      }
+
+      50% {
+        box-shadow: 0 0 40px rgba(236, 72, 153, 0.6)
+      }
+    }
+
+    .glow-ring img,
+    .glow-ring div {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover
+    }
+
+    .skill-chip {
+      display: inline-flex;
+      padding: 6px 14px;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 500;
+      transition: transform 0.2s
+    }
+
+    .skill-chip:hover {
+      transform: scale(1.05)
+    }
+
+    .progress-track {
+      height: 6px;
+      border-radius: 3px;
+      overflow: hidden;
+      position: relative
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 1s ease;
+      width: 0
+    }
+
+    .progress-fill.animate {
+      width: var(--w)
+    }
+
+    .project-card {
+      transition: transform 0.3s
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px)
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 40;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: all 0.3s
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0)
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
+      outline: none;
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px;
+      transition: all 0.3s;
+      color: inherit
+    }
+
+    .form-input:focus {
+      border-color: rgba(124, 58, 237, 0.5);
+      box-shadow: 0 0 20px rgba(124, 58, 237, 0.15)
+    }
+
+    .form-input::placeholder {
+      opacity: 0.4
+    }
+
+    .cta-btn {
+      padding: 12px 32px;
+      border-radius: 18px;
+      border: none;
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.3)
+    }
+
+    .cta-btn:active {
+      transform: scale(0.97)
+    }
+
+    .social-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s
+    }
+
+    .social-icon:hover {
+      transform: translateY(-3px)
+    }
+
+    /* Loading */
+    .loader-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s
+    }
+
+    .loader-overlay.hidden {
+      opacity: 0;
+      pointer-events: none
+    }
+
+    .loader-ring {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-top-color: rgba(124, 58, 237, 0.8);
+      animation: spin 0.8s linear infinite
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .modal-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s
+    }
+
+    .modal-bg.open {
+      opacity: 1;
+      pointer-events: auto
+    }
+
+    .modal-content {
+      max-width: 400px;
+      width: 100%;
+      max-height: 80%;
+      overflow-y: auto;
+      padding: 24px;
+      transition: transform 0.3s;
+      transform: scale(0.9)
+    }
+
+    .modal-bg.open .modal-content {
+      transform: scale(1)
+    }
+
+    .timeline-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1
+    }
+
+    .timeline-line {
+      position: absolute;
+      left: 5px;
+      top: 12px;
+      bottom: 0;
+      width: 2px;
+      border-radius: 1px
+    }
+  </style>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+  </style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+</head>
+
+<body class="h-full">
+  <div class="app-shell" id="app"><!-- Loader -->
+    <div class="loader-overlay" id="loader" style="background:rgba(15,10,30,0.9)">
+      <div class="loader-ring"></div>
+    </div><!-- BG -->
+    <div class="bg-mesh" id="bgMesh">
+      <div class="blob blob-1" id="blob1"></div>
+      <div class="blob blob-2" id="blob2"></div>
+      <div class="blob blob-3" id="blob3"></div>
+    </div><!-- Theme Toggle --> <button class="theme-toggle glass" id="themeToggle" aria-label="Toggle theme"> <i
+        data-lucide="sun" style="width:18px;height:18px"></i> </button> <!-- HOME -->
+    <div class="page active" id="page-home" data-tab="home">
+      <div
+        style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100%;gap:24px;text-align:center">
+        <div class="glow-ring fade-in">
+          <div
+            style="width:100%;height:100%;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.05);">
+            <img src="./image.png" alt="Saqib Mehmood"
+              style="width:100%;height:100%;object-fit:contain;transform:scale(1.25) translateY(10px);">
+          </div>
+        </div>
+        <div class="fade-in" style="transition-delay:0.1s">
+          <h1 id="elName" style="font-family:'Sora',sans-serif;font-size:28px;font-weight:700;margin-bottom:4px">Saqib
+            Mehmood
+          </h1>
+          <p id="elTitle" style="font-size:16px;opacity:0.7;font-weight:400">Charted Accountant</p>
+        </div>
+        <p id="elTagline" class="fade-in"
+          style="font-size:14px;opacity:0.5;max-width:280px;line-height:1.6;transition-delay:0.2s">Expert in MS Office,
+          Data Analytics, and QuickBooks Intuit.</p>
+        <div class="fade-in" style="display:flex;gap:12px;transition-delay:0.4s">
+          <a href="https://www.facebook.com/share/1CSKYUrTN2/" target="_blank" class="social-icon glass"
+            style="color:inherit;text-decoration:none">
+            <i data-lucide="facebook" style="width:18px;height:18px"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/arian-rajput-1b93443b3?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+            target="_blank" class="social-icon glass" style="color:inherit;text-decoration:none">
+            <i data-lucide="linkedin" style="width:18px;height:18px"></i>
+          </a>
+          <a href="mailto:arian6575000@gmail.com" class="social-icon glass" style="color:inherit;text-decoration:none">
+            <i data-lucide="mail" style="width:18px;height:18px"></i>
+          </a>
+        </div>
+      </div>
+    </div><!-- ABOUT -->
+    <div class="page" id="page-about" data-tab="about">
+      <div style="padding-top:20px;max-width:500px;margin:0 auto">
+        <h2 class="fade-in" style="font-family:'Sora',sans-serif;font-size:24px;font-weight:700;margin-bottom:16px">
+          About Me</h2>
+        <div class="glass fade-in" style="padding:20px;margin-bottom:20px;transition-delay:0.1s">
+          <p id="elBio" style="font-size:14px;line-height:1.8;opacity:0.8">Hi, I'm Saqib Mehmood. I work at Amanat Dairy
+            Feeds as a Charted Accountant. My qualification is ACCA from London. I am an expert in MS Office,
+            extraordinarily proficient in MS Excel and Data Analysis, and certified in QuickBooks Intuit. I live in New
+            City Kasur.</p>
+        </div>
+        <h3 class="fade-in" style="font-size:16px;font-weight:600;margin-bottom:12px;transition-delay:0.15s">Skills</h3>
+        <div class="fade-in" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;transition-delay:0.2s"
+          id="skillsContainer"><span class="skill-chip glass">MS Office</span><span class="skill-chip glass">MS
+            Excel</span><span class="skill-chip glass">Data Analysis</span><span
+            class="skill-chip glass">QuickBooks</span><span class="skill-chip glass">ACCA</span><span
+            class="skill-chip glass">Accounting</span>
+        </div>
+        <div class="fade-in" style="margin-bottom:16px;transition-delay:0.25s" id="progressBars">
+          <div style="margin-bottom:12px">
+            <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;opacity:0.7">
+              <span>MS Office / MS Excel</span><span>95%</span>
+            </div>
+            <div class="progress-track glass" style="padding:0;background:rgba(255,255,255,0.06)">
+              <div class="progress-fill" style="--w:95%;background:linear-gradient(90deg,#7c3aed,#ec4899)"></div>
+            </div>
+          </div>
+          <div style="margin-bottom:12px">
+            <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;opacity:0.7">
+              <span>Data Analysis</span><span>90%</span>
+            </div>
+            <div class="progress-track glass" style="padding:0;background:rgba(255,255,255,0.06)">
+              <div class="progress-fill" style="--w:90%;background:linear-gradient(90deg,#3b82f6,#7c3aed)"></div>
+            </div>
+          </div>
+          <div style="margin-bottom:12px">
+            <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;opacity:0.7">
+              <span>QuickBooks Intuit</span><span>85%</span>
+            </div>
+            <div class="progress-track glass" style="padding:0;background:rgba(255,255,255,0.06)">
+              <div class="progress-fill" style="--w:85%;background:linear-gradient(90deg,#ec4899,#f59e0b)"></div>
+            </div>
+          </div>
+        </div>
+        <h3 class="fade-in" style="font-size:16px;font-weight:600;margin-bottom:12px;transition-delay:0.3s">Experience
+        </h3>
+        <div class="fade-in" style="transition-delay:0.35s">
+          <div style="display:flex;gap:16px;margin-bottom:20px" class="timeline-item">
+            <div style="position:relative">
+              <div class="timeline-dot" style="background:#7c3aed"></div>
+              <div class="timeline-line" style="background:rgba(124,58,237,0.2)"></div>
+            </div>
+            <div class="glass" style="padding:16px;flex:1">
+              <p style="font-size:12px;opacity:0.5">Present</p>
+              <p style="font-weight:600;font-size:14px;margin:4px 0">Charted Accountant — Amanat Dairy Feeds</p>
+              <p style="font-size:13px;opacity:0.6">Managing accounting operations and utilizing QuickBooks for
+                financial reporting.
+              </p>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;margin-bottom:20px" class="timeline-item">
+            <div style="position:relative">
+              <div class="timeline-dot" style="background:#3b82f6"></div>
+            </div>
+            <div class="glass" style="padding:16px;flex:1">
+              <p style="font-size:12px;opacity:0.5">Education</p>
+              <p style="font-weight:600;font-size:14px;margin:4px 0">ACCA — London</p>
+              <p style="font-size:13px;opacity:0.6">Qualified Association of Chartered Certified Accountants.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- PROJECTS -->
+    <div class="page" id="page-projects" data-tab="projects">
+      <div style="padding-top:20px;max-width:500px;margin:0 auto">
+        <h2 class="fade-in" style="font-family:'Sora',sans-serif;font-size:24px;font-weight:700;margin-bottom:16px">
+          Projects</h2>
+        <div id="projectsList"></div>
+      </div>
+    </div><!-- CONTACT -->
+    <div class="page" id="page-contact" data-tab="contact">
+      <div style="padding-top:20px;max-width:500px;margin:0 auto">
+        <h2 class="fade-in" id="elContactHeading"
+          style="font-family:'Sora',sans-serif;font-size:24px;font-weight:700;margin-bottom:16px">Get In Touch</h2>
+        <form class="glass fade-in" style="padding:24px;transition-delay:0.1s" id="contactForm"><label for="cName"
+            style="font-size:13px;opacity:0.6;display:block;margin-bottom:4px">Name</label> <input id="cName"
+            class="form-input" placeholder="Your name" style="margin-bottom:16px"> <label for="cEmail"
+            style="font-size:13px;opacity:0.6;display:block;margin-bottom:4px">Email</label> <input id="cEmail"
+            type="email" class="form-input" placeholder="you@email.com" style="margin-bottom:16px"> <label for="cMsg"
+            style="font-size:13px;opacity:0.6;display:block;margin-bottom:4px">Message</label> <textarea id="cMsg"
+            class="form-input" rows="4" placeholder="Your message..." style="margin-bottom:20px;resize:none"></textarea>
+          <button type="submit" class="cta-btn" style="width:100%">Send Message</button>
+          <p id="formFeedback"
+            style="text-align:center;margin-top:12px;font-size:13px;opacity:0;transition:opacity 0.3s"></p>
+        </form>
+        <div class="fade-in"
+          style="display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:20px;transition-delay:0.2s">
+          <div style="display:flex;align-items:center;gap:8px;font-size:14px;opacity:0.8;"><i data-lucide="map-pin"
+              style="width:16px;height:16px"></i> New City Kasur</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:14px;opacity:0.8;"><i data-lucide="phone"
+              style="width:16px;height:16px"></i> 03074560667</div>
+          <div style="display:flex;justify-content:center;gap:12px;margin-top:8px;">
+            <a href="https://wa.me/923074560667" target="_blank" class="social-icon glass"
+              style="color:inherit;text-decoration:none" title="WhatsApp">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-message-circle">
+                <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+              </svg>
+            </a>
+            <a href="mailto:arian6575000@gmail.com" class="social-icon glass" style="color:inherit;text-decoration:none"
+              title="Email">
+              <i data-lucide="mail" style="width:18px;height:18px"></i>
+            </a>
+            <a href="https://www.facebook.com/share/1CSKYUrTN2/" target="_blank" class="social-icon glass"
+              style="color:inherit;text-decoration:none" title="Facebook">
+              <i data-lucide="facebook" style="width:18px;height:18px"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/arian-rajput-1b93443b3?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+              target="_blank" class="social-icon glass" style="color:inherit;text-decoration:none" title="LinkedIn">
+              <i data-lucide="linkedin" style="width:18px;height:18px"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div><!-- Project Modal -->
+    <div class="modal-bg" id="projectModal">
+      <div class="modal-content glass" id="modalInner"></div>
+    </div><!-- NAV -->
+    <nav class="nav-bar" id="navBar" style="background:rgba(255,255,255,0.1)"><button class="nav-btn active"
+        data-tab="home"><i data-lucide="home"></i><span>Home</span></button> <button class="nav-btn" data-tab="about"><i
+          data-lucide="user"></i><span>About</span></button> <button class="nav-btn" data-tab="projects"><i
+          data-lucide="briefcase"></i><span>Work</span></button> <button class="nav-btn" data-tab="contact"><i
+          data-lucide="send"></i><span>Contact</span></button>
+    </nav>
+  </div>
+  <script>
+    const projects = [
+      { title: 'Financial Data Analytics', desc: 'Comprehensive data analysis and reporting using MS Excel and advanced formulas for corporate finance.', tags: ['MS Excel', 'Data Analysis', 'Reporting'], img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800' },
+      { title: 'QuickBooks Integration', desc: 'Setup and management of company accounts using QuickBooks Intuit, ensuring accurate tax filing and bookkeeping.', tags: ['QuickBooks', 'Accounting', 'Bookkeeping'], img: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800' },
+      { title: 'Audit & Compliance', desc: 'Conducted detailed financial audits and maintained rigorous compliance standards for various business entities.', tags: ['Audit', 'ACCA', 'Compliance'], img: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=800' }
+    ];
+
+    // Render projects
+    const pl = document.getElementById('projectsList');
+    projects.forEach((p, i) => {
+      const d = document.createElement('div');
+      d.className = 'project-card glass fade-in';
+      d.style.cssText = `padding:20px;margin-bottom:16px;cursor:pointer;transition-delay:${i * 0.1 + 0.1}s`;
+      d.innerHTML = `<img src="${p.img}" style="width:100%;height:120px;border-radius:16px;margin-bottom:12px;object-fit:cover;" alt="${p.title}"><h3 style="font-weight:600;font-size:16px;margin-bottom:4px">${p.title}</h3><p style="font-size:13px;opacity:0.6;margin-bottom:10px;line-height:1.5">${p.desc}</p><div style="display:flex;gap:6px;flex-wrap:wrap">${p.tags.map(t => `<span class="skill-chip glass" style="font-size:11px;padding:4px 10px">${t}</span>`).join('')}</div>`;
+      d.addEventListener('click', () => openModal(p));
+      pl.appendChild(d);
+    });
+
+    function openModal(p) {
+      const m = document.getElementById('modalInner');
+      m.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><h3 style="font-family:'Sora',sans-serif;font-weight:700;font-size:20px">${p.title}</h3><button onclick="document.getElementById('projectModal').classList.remove('open')" style="background:none;border:none;cursor:pointer;color:inherit;opacity:0.5"><i data-lucide="x" style="width:20px;height:20px"></i></button></div><img src="${p.img}" style="width:100%;height:160px;border-radius:16px;margin-bottom:16px;object-fit:cover;" alt="${p.title}"><p style="font-size:14px;line-height:1.7;opacity:0.8;margin-bottom:16px">${p.desc}</p><div style="display:flex;gap:6px;flex-wrap:wrap">${p.tags.map(t => `<span class="skill-chip glass" style="font-size:12px;padding:5px 12px">${t}</span>`).join('')}</div>`;
+      lucide.createIcons();
+      document.getElementById('projectModal').classList.add('open');
+    }
+    document.getElementById('projectModal').addEventListener('click', e => { if (e.target.id === 'projectModal') e.target.classList.remove('open'); });
+
+    // Navigation
+    let currentTab = 'home';
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tab = btn.dataset.tab;
+        if (tab === currentTab) return;
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelector('.page.active').classList.remove('active');
+        const page = document.getElementById('page-' + tab);
+        page.classList.add('active');
+        page.scrollTop = 0;
+        currentTab = tab;
+        setTimeout(() => animateFadeIns(page), 50);
+        if (tab === 'about') setTimeout(animateProgress, 300);
+      });
+    });
+
+
+
+    // Form
+    document.getElementById('contactForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const fb = document.getElementById('formFeedback');
+      fb.textContent = '✓ Message sent! I\'ll get back to you soon.';
+      fb.style.opacity = '1';
+      fb.style.color = '#10b981';
+      e.target.reset();
+      setTimeout(() => fb.style.opacity = '0', 3000);
+    });
+
+    // Animations
+    function animateFadeIns(container) {
+      container.querySelectorAll('.fade-in').forEach((el, i) => {
+        el.classList.remove('visible');
+        setTimeout(() => el.classList.add('visible'), i * 60);
+      });
+    }
+    function animateProgress() {
+      document.querySelectorAll('.progress-fill').forEach(el => { el.classList.remove('animate'); void el.offsetWidth; el.classList.add('animate'); });
+    }
+
+    // Theme
+    let dark = true;
+    const toggle = document.getElementById('themeToggle');
+    function applyTheme() {
+      const app = document.getElementById('app');
+      const bg = document.getElementById('bgMesh');
+      if (dark) {
+        app.classList.add('dark');
+        document.body.style.color = '#f0f0f5';
+        bg.style.background = '#0a0a1a';
+        document.getElementById('blob1').style.display = 'block';
+        document.getElementById('blob2').style.display = 'block';
+        document.getElementById('blob3').style.display = 'block';
+        document.getElementById('blob1').style.background = 'rgba(124,58,237,0.4)';
+        document.getElementById('blob2').style.background = 'rgba(236,72,153,0.3)';
+        document.getElementById('blob3').style.background = 'rgba(59,130,246,0.3)';
+        toggle.innerHTML = '<i data-lucide="sun" style="width:18px;height:18px"></i>';
+      } else {
+        app.classList.remove('dark');
+        document.body.style.color = '#1a1a2e';
+        bg.style.background = 'url(./ios27_bg.png) no-repeat center center / cover';
+        document.getElementById('blob1').style.display = 'none';
+        document.getElementById('blob2').style.display = 'none';
+        document.getElementById('blob3').style.display = 'none';
+        toggle.innerHTML = '<i data-lucide="moon" style="width:18px;height:18px"></i>';
+      }
+      lucide.createIcons();
+    }
+    toggle.addEventListener('click', () => { dark = !dark; applyTheme(); });
+    applyTheme();
+
+    // Loader
+    setTimeout(() => document.getElementById('loader').classList.add('hidden'), 800);
+    setTimeout(() => animateFadeIns(document.getElementById('page-home')), 900);
+
+    lucide.createIcons();
+
+    // Element SDK
+    const defaultConfig = {
+      profile_name: 'Saqib Mehmood',
+      profile_title: 'Charted Accountant',
+      profile_tagline: 'Expert in MS Office, Data Analytics, and QuickBooks Intuit.',
+      about_bio: "Hi, I'm Saqib Mehmood. I work at Amanat Dairy Feeds as a Charted Accountant. My qualification is ACCA from London. I am an expert in MS Office, extraordinarily proficient in MS Excel and Data Analysis, and certified in QuickBooks Intuit. I live in New City Kasur.",
+      contact_heading: 'Get In Touch',
+      background_color: '#0a0a1a',
+      surface_color: '#7c3aed',
+      text_color: '#f0f0f5',
+      primary_action_color: '#7c3aed',
+      secondary_action_color: '#ec4899',
+      font_family: 'Outfit',
+      font_size: 16
+    };
+
+    function applyConfig(config) {
+      document.getElementById('elName').textContent = config.profile_name || defaultConfig.profile_name;
+      document.getElementById('elTitle').textContent = config.profile_title || defaultConfig.profile_title;
+      document.getElementById('elTagline').textContent = config.profile_tagline || defaultConfig.profile_tagline;
+      document.getElementById('elBio').textContent = config.about_bio || defaultConfig.about_bio;
+      document.getElementById('elContactHeading').textContent = config.contact_heading || defaultConfig.contact_heading;
+
+      const ff = config.font_family || defaultConfig.font_family;
+      const fs = config.font_size || defaultConfig.font_size;
+      document.body.style.fontFamily = `${ff}, Outfit, sans-serif`;
+      document.querySelectorAll('h1').forEach(el => { el.style.fontFamily = `Sora, ${ff}, sans-serif`; el.style.fontSize = `${fs * 1.75}px`; });
+      document.querySelectorAll('h2').forEach(el => { el.style.fontFamily = `Sora, ${ff}, sans-serif`; el.style.fontSize = `${fs * 1.5}px`; });
+      document.querySelectorAll('p, span, input, textarea, button').forEach(el => { if (!el.closest('.nav-bar')) el.style.fontFamily = `${ff}, Outfit, sans-serif`; });
+
+      const pc = config.primary_action_color || defaultConfig.primary_action_color;
+      const sc = config.secondary_action_color || defaultConfig.secondary_action_color;
+      document.querySelectorAll('.cta-btn').forEach(btn => { btn.style.background = `linear-gradient(135deg,${pc},${sc})`; btn.style.color = '#fff'; });
+      document.querySelectorAll('.glow-ring').forEach(r => { r.style.background = `linear-gradient(135deg,${pc},${sc},#3b82f6)`; });
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (config) => applyConfig(config),
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            { get: () => config.background_color || defaultConfig.background_color, set: v => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }) } },
+            { get: () => config.surface_color || defaultConfig.surface_color, set: v => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }) } },
+            { get: () => config.text_color || defaultConfig.text_color, set: v => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }) } },
+            { get: () => config.primary_action_color || defaultConfig.primary_action_color, set: v => { config.primary_action_color = v; window.elementSdk.setConfig({ primary_action_color: v }) } },
+            { get: () => config.secondary_action_color || defaultConfig.secondary_action_color, set: v => { config.secondary_action_color = v; window.elementSdk.setConfig({ secondary_action_color: v }) } }
+          ],
+          borderables: [],
+          fontEditable: { get: () => config.font_family || defaultConfig.font_family, set: v => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }) } },
+          fontSizeable: { get: () => config.font_size || defaultConfig.font_size, set: v => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }) } }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ['profile_name', config.profile_name || defaultConfig.profile_name],
+          ['profile_title', config.profile_title || defaultConfig.profile_title],
+          ['profile_tagline', config.profile_tagline || defaultConfig.profile_tagline],
+          ['about_bio', config.about_bio || defaultConfig.about_bio],
+          ['contact_heading', config.contact_heading || defaultConfig.contact_heading]
+        ])
+      });
+    }
+  </script>
+  <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'9e9962e0044903e8',t:'MTc3NTczNjM5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
+</body>
+
+</html>
